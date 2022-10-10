@@ -22,7 +22,7 @@ func NewPageRepository(sql *sql.DB) page.PageRepository {
 // // Gets all pages from database and returns array of pages
 func (r *pageRepository) GetPages(ctx context.Context, pageId string) ([]page.GetPage, error) {
 	var pages []page.GetPage
-	result, err := r.db.Query("SELECT `firstname`, `lastname` from `pages`;")
+	result, err := r.db.Query("SELECT `firstname`, `lastname` from `pages`")
 	if err != nil {
 		return nil, err
 	}
