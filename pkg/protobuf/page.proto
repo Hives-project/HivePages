@@ -1,10 +1,11 @@
 syntax = "proto3";
-package page;
+package pb;
+option go_package = "./proto";
 
-message Message {
-    string body = 1;
+message SongServerRequest {
+    string song_name = 1;
 }
 
-service PageService {
-    rpc SayHello(Message) returns (Message) {}
+service ChatService {
+    rpc SayHello(SongServerRequest) returns (SongServerRequest) {}
 }
