@@ -15,5 +15,7 @@ func (s *server) routes() {
 	exampleHandler := s.Router.PathPrefix("/pages").Subrouter()
 
 	exampleHandler.HandleFunc("", page.CreatePageHandler(s.PageService)).Methods(http.MethodPost)
-	exampleHandler.HandleFunc("/{uuid}", page.GetPageHandler(s.PageService)).Methods(http.MethodGet)
+	exampleHandler.HandleFunc("", page.GetPageHandler(s.PageService)).Methods(http.MethodGet)
+
+	exampleHandler.HandleFunc("/{uuid}", page.GetPageByUuidHandler(s.PageService)).Methods(http.MethodGet)
 }

@@ -1,11 +1,11 @@
 package page
 
 import (
-	"context"
 	"database/sql"
 	"errors"
 
 	"github.com/Hives-project/HivePages/pkg/page"
+	"github.com/Hives-project/HivePages/pkg/util"
 	"github.com/go-sql-driver/mysql"
 )
 
@@ -19,10 +19,9 @@ func NewPageRepository(sql *sql.DB) page.PageRepository {
 	}
 }
 
-// // Gets all pages from database and returns array of pages
-func (r *pageRepository) GetPages(ctx context.Context, pageId string) ([]page.GetPage, error) {
+func (r *pageRepository) GetPages() ([]page.GetPage, error) {
 	var pages []page.GetPage
-	result, err := r.db.Query("SELECT `firstname`, `lastname` from `pages`")
+	result, err := r.db.Query("SELECT `id`, `firstname`, `lastname` from `pages`")
 	if err != nil {
 		return nil, err
 	}
@@ -38,25 +37,23 @@ func (r *pageRepository) GetPages(ctx context.Context, pageId string) ([]page.Ge
 	return pages, nil
 }
 
-// func (r *pageRepository) GetPageByUuid(uuid string) error {
-// 	var page models.Page
+func (r *pageRepository) GetPageByUuid(uuid string) (page.GetPage, error) {
+	var brand page.GetPage
 
-// 	row := r.db.QueryRow("SELECT {ELEMENTS} from {TABLENAME} WHERE uuid = ?;", uuid)
-// 	err := row.Scan(&page.ID, &page.UUID, &page.Email, &page.Subscribed)
+	row := r.db.QueryRow("SELECT `id`, `firstname`, `lastname` from `pages` WHERE id = ?", uuid)
+	err := row.Scan(&brand.Uuid, &brand.Firstname, &brand.Lastname)
 
-// 	switch {
-// 	case errors.Is(err, sql.ErrNoRows):
-// 		return errors.New("page does not exist")
-// 	case err != nil:
-// 		return errors.New("internal server error")
-// 	default:
-// 		return nil
-// 	}
-// }
+	switch {
+	case errors.Is(err, sql.ErrNoRows):
+		return brand, util.NewErrorf(err, util.ErrorCodeNotFound, "brand with id: %s does not exist", uuid)
+	case err != nil:
+		return brand, util.NewErrorf(err, util.ErrorCodeInternal, "internal server error")
+	default:
+		return brand, nil
+	}
+}
 
-// Creates a new record in database
-// If already exists, returns error that page exists
-func (r *pageRepository) CreatePage(ctx context.Context, page page.CreatePage) error {
+func (r *pageRepository) CreatePage(page page.GetPage) error {
 	stmt, err := r.db.Prepare("INSERT INTO pages(id, firstname, lastname) VALUES(?, ?, ?);")
 	if err != nil {
 		return err
@@ -74,27 +71,25 @@ func (r *pageRepository) CreatePage(ctx context.Context, page page.CreatePage) e
 	return nil
 }
 
-// Deletes a record from database
-// If record doesn't exist, returns not exist error
-// func (r *pageRepository) DeletePage(uuid string) error {
-// 	stmt, err := r.db.Prepare("DELETE FROM pages WHERE uuid = ?;")
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer stmt.Close()
+func (r *pageRepository) DeletePage(uuid string) error {
+	stmt, err := r.db.Prepare("DELETE FROM pages WHERE uuid = ?;")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
 
-// 	result, err := stmt.Exec(uuid)
-// 	if err != nil {
-// 		return err
-// 	}
+	result, err := stmt.Exec(uuid)
+	if err != nil {
+		return err
+	}
 
-// 	rows, err := result.RowsAffected()
-// 	if err != nil {
-// 		return err
-// 	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
 
-// 	if rows != 1 {
-// 		return errors.New("Page does not exist")
-// 	}
-// 	return nil
-// }
+	if rows != 1 {
+		return errors.New("Page does not exist")
+	}
+	return nil
+}

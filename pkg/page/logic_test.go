@@ -1,20 +1,22 @@
 package page_test
 
 import (
-	"context"
-	"database/sql"
 	"testing"
 
-	repo "github.com/Hives-project/HivePages/pkg/storage/mysql/page"
-
 	"github.com/Hives-project/HivePages/pkg/page"
+	repo "github.com/Hives-project/HivePages/pkg/page/mock"
+	"github.com/golang/mock/gomock"
 )
 
 func TestHelloEmpty(t *testing.T) {
-	repo := repo.NewPageRepository(&sql.DB{})
-	service := page.NewPageService(repo)
-	resp, err := service.GetPages(context.Background(), "1")
+	controller := gomock.NewController(t)
+	mockRepo := repo.NewMockPageRepository(controller)
+	service := page.NewPageService(mockRepo)
+
+	mockRepo.EXPECT().GetPages()
+
+	resp, err := service.GetPages()
 	if resp != nil && err != nil {
-		t.Fatalf(`did not hello world`)
+		t.Fatalf(`did not succeed`)
 	}
 }

@@ -12,14 +12,14 @@ import (
 
 func CreatePageHandler(pageService page.PageService) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var page page.CreatePage
+		var body page.GetPage
 
-		if err := json.NewDecoder(r.Body).Decode(&page); err != nil {
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 			handlers.RenderErrorResponse(w, "Invalid request payload", r.URL.Path, err)
 			return
 		}
 
-		pageService.CreatePage(r.Context(), page)
+		pageService.CreatePage(body)
 	}
 }
 
@@ -32,9 +32,27 @@ func GetPageHandler(pageService page.PageService) func(w http.ResponseWriter, r 
 			return
 		}
 
-		page, err := pageService.GetPages(r.Context(), uuid)
+		page, err := pageService.GetPages()
 		if err != nil {
 			handlers.RenderErrorResponse(w, "internal server error", r.URL.Path, err)
+		}
+
+		handlers.RenderResponse(w, http.StatusOK, page)
+	}
+}
+
+func GetPageByUuidHandler(pageService page.PageService) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		uuid := mux.Vars(r)["uuid"]
+		if len(uuid) == 0 {
+			handlers.RenderErrorResponse(w, "query parameters are invalid", r.URL.Path, errors.New("query parameters are invalid"))
+			return
+		}
+
+		page, err := pageService.GetPageByUuid(uuid)
+		if err != nil {
+			handlers.RenderErrorResponse(w, "internal server error", r.URL.Path, err)
+			return
 		}
 
 		handlers.RenderResponse(w, http.StatusOK, page)
