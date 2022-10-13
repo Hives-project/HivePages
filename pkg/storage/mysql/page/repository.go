@@ -89,7 +89,7 @@ func (r *pageRepository) DeletePage(uuid string) error {
 	}
 
 	if rows != 1 {
-		return errors.New("Page does not exist")
+		return errors.New("page does not exist")
 	}
 	return nil
 }
