@@ -54,7 +54,7 @@ func (r *pageRepository) GetPageByUuid(uuid string) (page.GetPage, error) {
 }
 
 func (r *pageRepository) CreatePage(page page.GetPage) error {
-	stmt, err := r.db.Prepare("INSERT INTO pages(id, firstname, lastname) VALUES(?, ?, ?);")
+	stmt, err := r.db.Prepare("INSERT INTO pages(id, firstname, lastname) VALUES(?, ?, ?)")
 	if err != nil {
 		return err
 	}
@@ -72,7 +72,7 @@ func (r *pageRepository) CreatePage(page page.GetPage) error {
 }
 
 func (r *pageRepository) DeletePage(uuid string) error {
-	stmt, err := r.db.Prepare("DELETE FROM pages WHERE uuid = ?;")
+	stmt, err := r.db.Prepare("DELETE FROM pages WHERE uuid = ?")
 	if err != nil {
 		return err
 	}
