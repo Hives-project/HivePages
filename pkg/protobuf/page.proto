@@ -1,6 +1,10 @@
 syntax = "proto3";
 package pb;
-option go_package = "./proto";
+option go_package = "./pb";
+
+// command to generate: 
+// protoc --proto_path=./ --go_out=./ ./page.proto
+// proto path = where to look for .proto file, go out is output directory, last piece is /path/to/file.proto
 
 message SongServerRequest {
     string song_name = 1;

@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChatServiceClient interface {
-	SayHello(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
+	SayHello(ctx context.Context, in *SongServerRequest, opts ...grpc.CallOption) (*SongServerRequest, error)
 }
 
 type chatServiceClient struct {
@@ -33,8 +33,8 @@ func NewChatServiceClient(cc grpc.ClientConnInterface) ChatServiceClient {
 	return &chatServiceClient{cc}
 }
 
-func (c *chatServiceClient) SayHello(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
-	out := new(Message)
+func (c *chatServiceClient) SayHello(ctx context.Context, in *SongServerRequest, opts ...grpc.CallOption) (*SongServerRequest, error) {
+	out := new(SongServerRequest)
 	err := c.cc.Invoke(ctx, "/pb.ChatService/SayHello", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,21 +43,19 @@ func (c *chatServiceClient) SayHello(ctx context.Context, in *Message, opts ...g
 }
 
 // ChatServiceServer is the server API for ChatService service.
-// All implementations must embed UnimplementedChatServiceServer
+// All implementations should embed UnimplementedChatServiceServer
 // for forward compatibility
 type ChatServiceServer interface {
-	SayHello(context.Context, *Message) (*Message, error)
-	mustEmbedUnimplementedChatServiceServer()
+	SayHello(context.Context, *SongServerRequest) (*SongServerRequest, error)
 }
 
-// UnimplementedChatServiceServer must be embedded to have forward compatible implementations.
+// UnimplementedChatServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedChatServiceServer struct {
 }
 
-func (UnimplementedChatServiceServer) SayHello(context.Context, *Message) (*Message, error) {
+func (UnimplementedChatServiceServer) SayHello(context.Context, *SongServerRequest) (*SongServerRequest, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SayHello not implemented")
 }
-func (UnimplementedChatServiceServer) mustEmbedUnimplementedChatServiceServer() {}
 
 // UnsafeChatServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to ChatServiceServer will
@@ -71,7 +69,7 @@ func RegisterChatServiceServer(s grpc.ServiceRegistrar, srv ChatServiceServer) {
 }
 
 func _ChatService_SayHello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Message)
+	in := new(SongServerRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -83,7 +81,7 @@ func _ChatService_SayHello_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/pb.ChatService/SayHello",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatServiceServer).SayHello(ctx, req.(*Message))
+		return srv.(ChatServiceServer).SayHello(ctx, req.(*SongServerRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

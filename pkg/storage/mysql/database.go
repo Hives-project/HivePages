@@ -25,7 +25,7 @@ func Connect(cfg config.MySQLConfig) (*sql.DB, error) {
 	db.SetMaxIdleConns(cfg.MaxIdleConns)
 	db.SetMaxOpenConns(cfg.MaxOpenConns)
 
-	err = db.PingContext(ctx)
+	err = db.Ping()
 	if err != nil {
 		return nil, fmt.Errorf("failed ping because: %s", err.Error())
 	}
