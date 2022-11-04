@@ -3,8 +3,9 @@ package pb;
 option go_package = "./pb";
 
 // command to generate: 
-// protoc --proto_path=./ --go_out=./ ./page.proto
-// proto path = where to look for .proto file, go out is output directory, last piece is /path/to/file.proto
+// protoc --go_out=./pb --go_opt=paths=source_relative --go-grpc_out=./pb --go-grpc_opt=paths=source_relative ./page.proto
+// --go_out = where to generate pb file; --go_grpc_out = where to generate grpc pb file containing interfaces; last part is /path/to/file.proto
+// further reference at: https://grpc.io/docs/languages/go/basics/
 
 message SongServerRequest {
     string song_name = 1;
