@@ -7,10 +7,16 @@ option go_package = "./pb";
 // --go_out = where to generate pb file; --go_grpc_out = where to generate grpc pb file containing interfaces; last part is /path/to/file.proto
 // further reference at: https://grpc.io/docs/languages/go/basics/
 
-message SongServerRequest {
-    string song_name = 1;
+message PageRequest {
+    string uuid = 1;
 }
 
-service ChatService {
-    rpc SayHello(SongServerRequest) returns (SongServerRequest) {}
+message PageResponse {
+    string id = 1;
+    string pageName = 2;
+    string Description = 3;
+}
+
+service PageService {
+    rpc GetPage(PageRequest) returns (PageResponse) {}
 }
