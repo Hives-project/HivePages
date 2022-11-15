@@ -33,3 +33,11 @@ func (u *pageService) GetPages(ctx context.Context, uuid string) ([]GetPage, err
 	}
 	return pages, nil
 }
+
+func (u *pageService) GetPageById(ctx context.Context, uuid string) (GetPage, error) {
+	page, err := u.pageRepository.GetPageById(ctx, uuid)
+	if err != nil {
+		return page, util.NewErrorf(err, util.ErrorCodeInternal, "could not get page with id: %s", uuid)
+	}
+	return page, nil
+}

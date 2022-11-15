@@ -13,7 +13,7 @@ import (
 func main() {
 	var opts []grpc.DialOption = []grpc.DialOption{}
 	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	conn, err := grpc.Dial(":9000", opts...)
+	conn, err := grpc.Dial(":8080", opts...)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -25,7 +25,7 @@ func main() {
 }
 
 func GetPage(client pb.PageServiceClient) {
-	page, err := client.GetPage(context.Background(), &pb.PageRequest{Uuid: "12"})
+	page, err := client.GetPage(context.Background(), &pb.PageRequest{Uuid: "1"})
 	if err != nil {
 		log.Panic(err)
 	}
