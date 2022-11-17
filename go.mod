@@ -17,5 +17,3 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20221010155953-15ba04fc1c0e // indirect
 )
-
-require github.com/golang/mock v1.6.0
