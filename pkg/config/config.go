@@ -15,7 +15,7 @@ type Config struct {
 	Version     string
 
 	// Add package configs under here
-	HTTP HTTPConfig
+	GRPC GRPCConfig
 	Sql  MySQLConfig
 }
 
@@ -40,7 +40,7 @@ func (cfg *Config) LoadConfig() error {
 	cfg.Version = os.Getenv("APP_VERSION")
 
 	// Loading extra package configurations
-	cfg.HTTP = cfg.loadHTTPConfig()
+	cfg.GRPC = cfg.LoadGRPCConfig()
 	cfg.Sql = cfg.loadSqlConfig()
 
 	return nil

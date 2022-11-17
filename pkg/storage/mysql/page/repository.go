@@ -1,6 +1,7 @@
 package page
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 
@@ -19,16 +20,16 @@ func NewPageRepository(sql *sql.DB) page.PageRepository {
 	}
 }
 
-func (r *pageRepository) GetPages() ([]page.GetPage, error) {
+func (r *pageRepository) GetPages(ctx context.Context, pageId string) ([]page.GetPage, error) {
 	var pages []page.GetPage
-	result, err := r.db.Query("SELECT `id`, `firstname`, `lastname` from `pages`")
+	result, err := r.db.Query("SELECT `uuid`, `pageName`, `description` from `pages`")
 	if err != nil {
 		return nil, err
 	}
 	defer result.Close()
 	for result.Next() {
 		var page page.GetPage
-		err := result.Scan(&page.Firstname, &page.Lastname)
+		err := result.Scan(&page.Uuid, &page.PageName, &page.Description)
 		if err != nil {
 			return nil, err
 		}
@@ -37,30 +38,14 @@ func (r *pageRepository) GetPages() ([]page.GetPage, error) {
 	return pages, nil
 }
 
-func (r *pageRepository) GetPageByUuid(uuid string) (page.GetPage, error) {
-	var brand page.GetPage
-
-	row := r.db.QueryRow("SELECT `id`, `firstname`, `lastname` from `pages` WHERE id = ?", uuid)
-	err := row.Scan(&brand.Uuid, &brand.Firstname, &brand.Lastname)
-
-	switch {
-	case errors.Is(err, sql.ErrNoRows):
-		return brand, util.NewErrorf(err, util.ErrorCodeNotFound, "brand with id: %s does not exist", uuid)
-	case err != nil:
-		return brand, util.NewErrorf(err, util.ErrorCodeInternal, "internal server error")
-	default:
-		return brand, nil
-	}
-}
-
-func (r *pageRepository) CreatePage(page page.GetPage) error {
-	stmt, err := r.db.Prepare("INSERT INTO pages(id, firstname, lastname) VALUES(?, ?, ?)")
+func (r *pageRepository) CreatePage(ctx context.Context, page page.CreatePage) error {
+	stmt, err := r.db.Prepare("INSERT INTO pages(uuid, pageName, description) VALUES(?, ?, ?)")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(page.Uuid, page.Firstname, page.Lastname)
+	_, err = stmt.Exec(page.Uuid, page.PageName, page.Description)
 	if mysqlError, ok := err.(*mysql.MySQLError); ok {
 		if mysqlError.Number == 1062 {
 			return errors.New("this page already exists")
@@ -71,25 +56,17 @@ func (r *pageRepository) CreatePage(page page.GetPage) error {
 	return nil
 }
 
-func (r *pageRepository) DeletePage(uuid string) error {
-	stmt, err := r.db.Prepare("DELETE FROM pages WHERE uuid = ?")
-	if err != nil {
-		return err
-	}
-	defer stmt.Close()
+func (r *pageRepository) GetPageById(ctx context.Context, pageId string) (page.GetPage, error) {
+	var page page.GetPage
+	row := r.db.QueryRow("SELECT `uuid`, `pageName`, `description` FROM `pages` WHERE uuid = ?", pageId)
+	err := row.Scan(&page.Uuid, &page.PageName, &page.Description)
 
-	result, err := stmt.Exec(uuid)
-	if err != nil {
-		return err
+	switch {
+	case errors.Is(err, sql.ErrNoRows):
+		return page, util.NewErrorf(err, util.ErrorCodeNotFound, "page with pageid: %s does not exist", pageId)
+	case err != nil:
+		return page, util.NewErrorf(err, util.ErrorCodeInternal, "internal server error")
+	default:
+		return page, nil
 	}
-
-	rows, err := result.RowsAffected()
-	if err != nil {
-		return err
-	}
-
-	if rows != 1 {
-		return errors.New("page does not exist")
-	}
-	return nil
 }

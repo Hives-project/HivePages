@@ -9,10 +9,6 @@ import (
 	"github.com/Hives-project/HivePages/pkg/config"
 )
 
-// All Connection logic
-// Think of functionallity like initializing the database connection on app start
-// As well as getting a collection for MongoDB
-
 func Connect(cfg config.MySQLConfig) (*sql.DB, error) {
 	ctx := context.Background()
 
@@ -25,7 +21,7 @@ func Connect(cfg config.MySQLConfig) (*sql.DB, error) {
 	db.SetMaxIdleConns(cfg.MaxIdleConns)
 	db.SetMaxOpenConns(cfg.MaxOpenConns)
 
-	err = db.PingContext(ctx)
+	err = db.Ping()
 	if err != nil {
 		return nil, fmt.Errorf("failed ping because: %s", err.Error())
 	}
