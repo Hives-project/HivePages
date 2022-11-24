@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: hives-pages-deployment
+  labels:
+    app: hives-pages
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hives-pages
+  template:
+    metadata:
+      labels:
+        app: hives-pages
+    spec:
+      containers:
+      - name: hives-pages
+        image: docker-hives-pages:latest
+        ports:
+        - containerPort: 80
