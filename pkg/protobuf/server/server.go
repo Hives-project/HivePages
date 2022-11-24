@@ -76,8 +76,6 @@ func (s *PageServer) Run(name string) {
 }
 
 func (s *PageServer) GetPage(ctx context.Context, message *pb.PageRequest) (*pb.PageResponse, error) {
-	log.Printf(" Received  message body from client, uuid: %s", message.Uuid)
-
 	page, err := s.PageService.GetPageById(context.Background(), message.Uuid)
 	if err != nil {
 		return nil, err
