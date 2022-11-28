@@ -23,7 +23,7 @@ func Connect(cfg config.MySQLConfig) (*sql.DB, error) {
 
 	err = db.Ping()
 	if err != nil {
-		return nil, fmt.Errorf("failed ping because: %s", err.Error())
+		return nil, fmt.Errorf("failed to ping database: %s", err.Error())
 	}
 
 	log.Println("MySQL database connected!")
