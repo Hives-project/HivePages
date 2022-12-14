@@ -65,7 +65,7 @@ jobs:
       uses: 'google-github-actions/auth@v0'
       with:
         token_format: 'access_token'
-        workload_identity_provider: 'projects/724024241382/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+        workload_identity_provider: 'principalSet://iam.googleapis.com/projects/724024241382/locations/global/workloadIdentityPools/my-pool/*'
         service_account: 'hives-account@alert-sunspot-369610.iam.gserviceaccount.com'
 
     - name: Docker configuration
