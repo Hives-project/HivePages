@@ -2,14 +2,16 @@ name: Go Continuous Integration
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: hives-cluster
+  GKE_CLUSTER: cluster-hives
   GKE_ZONE:  europe-west1-c
-  DEPLOYMENT_NAME: hives-app
-  IMAGE: hives-app
+  DEPLOYMENT_NAME: gke-deployment-hivepages
+  IMAGE: static-site
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
+  pull_request:
+    branches: [main, develop]
 
 jobs:
   build:
@@ -50,7 +52,8 @@ jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
-    
+    environment: production
+
     permissions:
       contents: 'read'
       id-token: 'write'
