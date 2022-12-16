@@ -101,6 +101,6 @@ jobs:
       - name: Deploy
         run: |-
           ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:latest
-          ./kustomize build . | kubectl apply -f default
+          ./kustomize build . | kubectl apply -f - --namespace=default
           kubectl rollout status deployment/hives-app
           kubectl get services -o wide
