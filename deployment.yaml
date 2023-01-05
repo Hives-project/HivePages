@@ -1,318 +1,149 @@
-apiVersion: apps/v1
-kind: Deployment
+---
+apiVersion: "v1"
+kind: "ConfigMap"
 metadata:
-  annotations:
-    deployment.kubernetes.io/revision: "3"
-  creationTimestamp: "2022-12-13T21:56:25Z"
-  generation: 4
+  name: "hives-app-config-x0rm"
+  namespace: "default"
   labels:
-    app: hives-app
-  managedFields:
-    - apiVersion: apps/v1
-      fieldsType: FieldsV1
-      fieldsV1:
-        f:metadata:
-          f:labels:
-            .: {}
-            f:app: {}
-        f:spec:
-          f:progressDeadlineSeconds: {}
-          f:replicas: {}
-          f:revisionHistoryLimit: {}
-          f:selector: {}
-          f:strategy:
-            f:rollingUpdate:
-              .: {}
-              f:maxSurge: {}
-              f:maxUnavailable: {}
-            f:type: {}
-          f:template:
-            f:metadata:
-              f:labels:
-                .: {}
-                f:app: {}
-            f:spec:
-              f:containers:
-                k:{"name":"hives-app-sha256-1"}:
-                  .: {}
-                  f:env:
-                    .: {}
-                    k:{"name":"APP_ENV"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"APP_NAME"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"APP_VERSION"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"CONN_MAX_LIFE_TIME"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"HTTP_HOST"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"HTTP_IDLE_TIME_OUT"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"HTTP_PORT"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"HTTP_READ_TIME_OUT"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"HTTP_WRITE_TIME_OUT"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"MAX_IDLE_CONNS"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"MAX_OPEN_CONNS"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"MYSQL_DATABASE"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"MYSQL_HOST"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"MYSQL_PASSWORD"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"MYSQL_PORT"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                    k:{"name":"MYSQL_USERNAME"}:
-                      .: {}
-                      f:name: {}
-                      f:valueFrom:
-                        .: {}
-                        f:configMapKeyRef: {}
-                  f:image: {}
-                  f:imagePullPolicy: {}
-                  f:name: {}
-                  f:resources: {}
-                  f:terminationMessagePath: {}
-                  f:terminationMessagePolicy: {}
-              f:dnsPolicy: {}
-              f:restartPolicy: {}
-              f:schedulerName: {}
-              f:securityContext: {}
-              f:terminationGracePeriodSeconds: {}
-      manager: GoogleCloudConsole
-      operation: Update
-      time: "2022-12-13T21:56:25Z"
-    - apiVersion: apps/v1
-      fieldsType: FieldsV1
-      fieldsV1:
-        f:metadata:
-          f:annotations:
-            .: {}
-            f:deployment.kubernetes.io/revision: {}
-        f:status:
-          f:availableReplicas: {}
-          f:conditions:
-            .: {}
-            k:{"type":"Available"}:
-              .: {}
-              f:lastTransitionTime: {}
-              f:lastUpdateTime: {}
-              f:message: {}
-              f:reason: {}
-              f:status: {}
-              f:type: {}
-            k:{"type":"Progressing"}:
-              .: {}
-              f:lastTransitionTime: {}
-              f:lastUpdateTime: {}
-              f:message: {}
-              f:reason: {}
-              f:status: {}
-              f:type: {}
-          f:observedGeneration: {}
-          f:readyReplicas: {}
-          f:replicas: {}
-          f:updatedReplicas: {}
-      manager: kube-controller-manager
-      operation: Update
-      subresource: status
-      time: "2022-12-13T22:10:10Z"
-  name: hives-app
-  namespace: default
-  resourceVersion: "10133040"
-  uid: 2b060deb-c98b-411f-9eb8-f57d17e62c1a
+    app: "hives-pages"
+data:
+  APP_NAME: Page Service
+  APP_VERSION: v1
+  APP_ENV: local
+  HTTP_HOST: 127.0.0.1
+  HTTP_PORT: 8081
+  HTTP_WRITE_TIME_OUT: 150s
+  HTTP_READ_TIME_OUT: 150s
+  HTTP_IDLE_TIME_OUT: 150s
+  CONN_MAX_LIFE_TIME: 150s
+  MAX_IDLE_CONNS: 10
+  MAX_OPEN_CONNS: 10
+  MYSQL_DATABASE: Yoeri
+  MYSQL_USERNAME: yoeri
+  MYSQL_PASSWORD: Veiligheid11
+  MYSQL_PORT: 3306
+  MYSQL_HOST: 80.56.132.146
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "hives-pages"
+  namespace: "default"
+  labels:
+    app: "hives-pages"
 spec:
-  progressDeadlineSeconds: 600
   replicas: 2
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: hives-app
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      app: "hives-pages"
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: hives-app
+        app: "hives-pages"
     spec:
       containers:
-        - env:
-            - name: APP_NAME
-              valueFrom:
-                configMapKeyRef:
-                  key: APP_NAME
-                  name: hives-app-config-dpol
-            - name: APP_ENV
-              valueFrom:
-                configMapKeyRef:
-                  key: APP_ENV
-                  name: hives-app-config-dpol
-            - name: APP_VERSION
-              valueFrom:
-                configMapKeyRef:
-                  key: APP_VERSION
-                  name: hives-app-config-dpol
-            - name: HTTP_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: HTTP_HOST
-                  name: hives-app-config-dpol
-            - name: HTTP_PORT
-              valueFrom:
-                configMapKeyRef:
-                  key: HTTP_PORT
-                  name: hives-app-config-dpol
-            - name: HTTP_WRITE_TIME_OUT
-              valueFrom:
-                configMapKeyRef:
-                  key: HTTP_WRITE_TIME_OUT
-                  name: hives-app-config-dpol
-            - name: HTTP_READ_TIME_OUT
-              valueFrom:
-                configMapKeyRef:
-                  key: HTTP_READ_TIME_OUT
-                  name: hives-app-config-dpol
-            - name: HTTP_IDLE_TIME_OUT
-              valueFrom:
-                configMapKeyRef:
-                  key: HTTP_IDLE_TIME_OUT
-                  name: hives-app-config-dpol
-            - name: CONN_MAX_LIFE_TIME
-              valueFrom:
-                configMapKeyRef:
-                  key: CONN_MAX_LIFE_TIME
-                  name: hives-app-config-dpol
-            - name: MAX_IDLE_CONNS
-              valueFrom:
-                configMapKeyRef:
-                  key: MAX_IDLE_CONNS
-                  name: hives-app-config-dpol
-            - name: MAX_OPEN_CONNS
-              valueFrom:
-                configMapKeyRef:
-                  key: MAX_OPEN_CONNS
-                  name: hives-app-config-dpol
-            - name: MYSQL_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  key: MYSQL_DATABASE
-                  name: hives-app-config-dpol
-            - name: MYSQL_USERNAME
-              valueFrom:
-                configMapKeyRef:
-                  key: MYSQL_USERNAME
-                  name: hives-app-config-dpol
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  key: MYSQL_PASSWORD
-                  name: hives-app-config-dpol
-            - name: MYSQL_PORT
-              valueFrom:
-                configMapKeyRef:
-                  key: MYSQL_PORT
-                  name: hives-app-config-dpol
-            - name: MYSQL_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: MYSQL_HOST
-                  name: hives-app-config-dpol
-          image: europe-west1-docker.pkg.dev/alert-sunspot-369610/hivepages/hives-app@sha256:e5ecc9619d481a33298f87edf8337135f5ffb3897e478443b2c11a975eb91f79
-          imagePullPolicy: IfNotPresent
-          name: hives-app-sha256-1
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
-status:
-  availableReplicas: 2
-  conditions:
-    - lastTransitionTime: "2022-12-13T22:10:14Z"
-      lastUpdateTime: "2022-12-13T22:10:14Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    - lastTransitionTime: "2022-12-13T21:56:25Z"
-      lastUpdateTime: "2022-12-13T22:10:14Z"
-      message: ReplicaSet "hives-app-56db7c5b54" has successfully progressed.
-      reason: NewReplicaSetAvailable
-      status: "True"
-      type: Progressing
-  observedGeneration: 4
-  readyReplicas: 2
-  replicas: 2
-  updatedReplicas: 2
+      - name: "hives-pages-sha256-1"
+        image: "gcr.io/alert-sunspot-369610/hives-pages:latest"
+        env:
+        - name: "APP_NAME"
+          valueFrom:
+            configMapKeyRef:
+              key: "APP_NAME"
+              name: "hives-pages-config-x0rm"
+        - name: "APP_VERSION"
+          valueFrom:
+            configMapKeyRef:
+              key: "APP_VERSION"
+              name: "hives-pages-config-x0rm"
+        - name: "APP_ENV"
+          valueFrom:
+            configMapKeyRef:
+              key: "APP_ENV"
+              name: "hives-pages-config-x0rm"
+        - name: "HTTP_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "HTTP_HOST"
+              name: "hives-pages-config-x0rm"
+        - name: "HTTP_PORT"
+          valueFrom:
+            configMapKeyRef:
+              key: "HTTP_PORT"
+              name: "hives-pages-config-x0rm"
+        - name: "HTTP_WRITE_TIME_OUT"
+          valueFrom:
+            configMapKeyRef:
+              key: "HTTP_WRITE_TIME_OUT"
+              name: "hives-pages-config-x0rm"
+        - name: "HTTP_READ_TIME_OUT"
+          valueFrom:
+            configMapKeyRef:
+              key: "HTTP_READ_TIME_OUT"
+              name: "hives-pages-config-x0rm"
+        - name: "HTTP_IDLE_TIME_OUT"
+          valueFrom:
+            configMapKeyRef:
+              key: "HTTP_IDLE_TIME_OUT"
+              name: "hives-pages-config-x0rm"
+        - name: "CONN_MAX_LIFE_TIME"
+          valueFrom:
+            configMapKeyRef:
+              key: "CONN_MAX_LIFE_TIME"
+              name: "hives-pages-config-x0rm"
+        - name: "MAX_IDLE_CONNS"
+          valueFrom:
+            configMapKeyRef:
+              key: "MAX_IDLE_CONNS"
+              name: "hives-pages-config-x0rm"
+        - name: "MAX_OPEN_CONNS"
+          valueFrom:
+            configMapKeyRef:
+              key: "MAX_OPEN_CONNS"
+              name: "hives-pages-config-x0rm"
+        - name: "MYSQL_DATABASE"
+          valueFrom:
+            configMapKeyRef:
+              key: "MYSQL_DATABASE"
+              name: "hives-pages-config-x0rm"
+        - name: "MYSQL_USERNAME"
+          valueFrom:
+            configMapKeyRef:
+              key: "MYSQL_USERNAME"
+              name: "hives-pages-config-x0rm"
+        - name: "MYSQL_PASSWORD"
+          valueFrom:
+            configMapKeyRef:
+              key: "MYSQL_PASSWORD"
+              name: "hives-pages-config-x0rm"
+        - name: "MYSQL_PORT"
+          valueFrom:
+            configMapKeyRef:
+              key: "MYSQL_PORT"
+              name: "hives-pages-config-x0rm"
+        - name: "MYSQL_HOST"
+          valueFrom:
+            configMapKeyRef:
+              key: "MYSQL_HOST"
+              name: "hives-pages-config-x0rm"
+---
+apiVersion: "autoscaling/v2"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "hives-pages-hpa-3ayr"
+  namespace: "default"
+  labels:
+    app: "hives-pages"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "hives-pages"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      target:
+        type: "Utilization"
+        averageUtilization: 80
