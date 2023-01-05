@@ -2,7 +2,7 @@
 apiVersion: "v1"
 kind: "ConfigMap"
 metadata:
-  name: "hives-app-config-x0rm"
+  name: "hives-pages-config-x0rm"
   namespace: "default"
   labels:
     app: "hives-pages"
