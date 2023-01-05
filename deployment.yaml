@@ -9,7 +9,7 @@ metadata:
 data:
   APP_NAME: Page Service
   APP_VERSION: v1
-  APP_ENV: local
+  APP_ENV: production
   HTTP_HOST: "127.0.0.1"
   HTTP_PORT: "8081"
   HTTP_WRITE_TIME_OUT: 150s
