@@ -4,8 +4,8 @@ env:
   PROJECT_ID: alert-sunspot-369610
   GKE_CLUSTER: hives-cluster
   GKE_ZONE: europe-west1-c
-  DEPLOYMENT_NAME: hives-app
-  IMAGE: hives-app
+  DEPLOYMENT_NAME: hives-pages
+  IMAGE: hives-pages
 
 on:
   push:
@@ -102,5 +102,5 @@ jobs:
         run: |-
           ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:latest
           ./kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment/hives-app
+          kubectl rollout status deployment/hives-pages
           kubectl get services -o wide
