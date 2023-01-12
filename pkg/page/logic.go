@@ -26,8 +26,8 @@ func (u *pageService) CreatePage(ctx context.Context, page CreatePage) error {
 	return nil
 }
 
-func (u *pageService) GetPages(ctx context.Context, uuid string) ([]GetPage, error) {
-	pages, err := u.pageRepository.GetPages(ctx, uuid)
+func (u *pageService) GetPages(ctx context.Context) ([]GetPage, error) {
+	pages, err := u.pageRepository.GetPages(ctx)
 	if err != nil {
 		return nil, util.NewErrorf(err, util.ErrorCodeInternal, "%s", "could not get pages")
 	}

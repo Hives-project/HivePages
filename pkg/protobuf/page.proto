@@ -2,6 +2,8 @@ syntax = "proto3";
 package pb;
 option go_package = "./pb";
 
+import "google/protobuf/empty.proto";
+
 // go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
 // go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
 
@@ -20,6 +22,11 @@ message PageResponse {
     string description = 3;
 }
 
+message PagesResponse {
+    repeated PageResponse pages = 1;
+}
+
 service PageService {
     rpc GetPage(PageRequest) returns (PageResponse) {}
+    rpc GetPages(google.protobuf.Empty) returns (PagesResponse) {}
 }

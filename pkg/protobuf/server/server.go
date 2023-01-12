@@ -14,6 +14,7 @@ import (
 	"github.com/Hives-project/HivePages/pkg/protobuf/pb"
 	pageRepository "github.com/Hives-project/HivePages/pkg/storage/mysql/page"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type PageServer struct {
@@ -28,7 +29,7 @@ type PageServer struct {
 	PageService page.PageService
 }
 
-const serverLog string = "[Server]: "
+const serverLog string = "[GRPc Server]: "
 
 func NewPageServer(cfg *config.GRPCConfig, env string, version string, sql *sql.DB) *PageServer {
 	baseUrl := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
@@ -82,4 +83,23 @@ func (s *PageServer) GetPage(ctx context.Context, message *pb.PageRequest) (*pb.
 	}
 
 	return &pb.PageResponse{Uuid: page.Uuid, PageName: page.PageName, Description: page.Description}, nil
+}
+
+func (s *PageServer) GetPages(ctx context.Context, _ *emptypb.Empty) (*pb.PagesResponse, error) {
+	pages, err := s.PageService.GetPages(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	var responses pb.PagesResponse
+	for _, page := range pages {
+		resp := pb.PageResponse{
+			Uuid:        page.Uuid,
+			PageName:    page.PageName,
+			Description: page.Description,
+		}
+		responses.Pages = append(responses.Pages, &resp)
+	}
+
+	return &responses, nil
 }
