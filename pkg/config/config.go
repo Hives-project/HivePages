@@ -17,6 +17,7 @@ type Config struct {
 	// Add package configs under here
 	GRPC GRPCConfig
 	Sql  MySQLConfig
+	HTTP HTTPConfig
 }
 
 func NewConfig() *Config {
@@ -42,6 +43,7 @@ func (cfg *Config) LoadConfig() error {
 	// Loading extra package configurations
 	cfg.GRPC = cfg.LoadGRPCConfig()
 	cfg.Sql = cfg.loadSqlConfig()
+	cfg.HTTP = cfg.loadHTTPConfig()
 
 	return nil
 }

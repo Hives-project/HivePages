@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/Hives-project/HivePages/pkg/config"
+	"github.com/Hives-project/HivePages/pkg/http/rest"
 	"github.com/Hives-project/HivePages/pkg/protobuf/server"
 	"github.com/Hives-project/HivePages/pkg/storage/mysql"
 )
@@ -29,9 +30,13 @@ func run() error {
 	if err != nil {
 		return err
 	}
+	httpServer := rest.NewHTTPServer(cfg, cfg.Environment, cfg.Version, sql)
+	httpServer.Init()
 
 	server := server.NewPageServer(&cfg.GRPC, cfg.Environment, cfg.Version, sql)
 	server.Init()
+
+	go httpServer.Run(cfg.Name)
 
 	server.Run(cfg.Name)
 

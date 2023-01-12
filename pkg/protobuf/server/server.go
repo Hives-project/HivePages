@@ -39,7 +39,7 @@ func NewPageServer(cfg *config.GRPCConfig, env string, version string, sql *sql.
 		Sql:         sql,
 	}
 
-	log.Println(serverLog+"started server on base url: ", baseUrl)
+	log.Println(serverLog+"started GRPc server on base url: ", baseUrl)
 
 	return newserver
 }
