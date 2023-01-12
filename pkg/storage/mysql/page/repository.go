@@ -20,7 +20,7 @@ func NewPageRepository(sql *sql.DB) page.PageRepository {
 	}
 }
 
-func (r *pageRepository) GetPages(ctx context.Context, pageId string) ([]page.GetPage, error) {
+func (r *pageRepository) GetPages(ctx context.Context) ([]page.GetPage, error) {
 	var pages []page.GetPage
 	result, err := r.db.Query("SELECT `uuid`, `pageName`, `description` from `pages`")
 	if err != nil {
