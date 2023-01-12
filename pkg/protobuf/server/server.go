@@ -97,6 +97,7 @@ func (s *PageServer) GetPages(ctx context.Context, _ *emptypb.Empty) (*pb.PagesR
 			Uuid:        page.Uuid,
 			PageName:    page.PageName,
 			Description: page.Description,
+			UserName:    page.UserName,
 		}
 		responses.Pages = append(responses.Pages, &resp)
 	}
