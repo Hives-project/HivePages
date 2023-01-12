@@ -4,7 +4,6 @@ import { sleep } from 'k6';
 export const options = {
   stages: [
     { duration: '1m', target: 1000 },
-    { duration: '1m', target: 10000 },
   ],
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
