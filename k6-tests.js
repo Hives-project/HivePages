@@ -20,6 +20,6 @@ export function setup() {
 
 export default function getpage(accesstoken) {
   let params = {headers: { 'Authorization': "Bearer "+accesstoken }}
-  const res = http.get('http://34.79.251.22:/pages/12', params);
-  sleep(500);
+  const res = http.get('http://34.79.251.22/pages/12', params);
+  sleep(1);
 }
