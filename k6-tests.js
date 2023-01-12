@@ -11,6 +11,12 @@ export const options = {
 };
 
 export default function () {
+  const res = http.post('https://lemur-18.cloud-iam.com/auth/realms/anonymizer-iam/protocol/openid-connect/token', 
+    
+  )
+}
+
+export default function () {
   const res = http.get('http://34.79.251.22:/pages/12');
   sleep(1);
 }
