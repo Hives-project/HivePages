@@ -19,6 +19,7 @@ func NewPageService(u PageRepository) PageService {
 }
 
 func (u *pageService) CreatePage(ctx context.Context, page CreatePage) error {
+	// Todo: add router from kafka consumer that has keycloak subject
 	page.Uuid = uuid.New().String()
 	if err := u.pageRepository.CreatePage(ctx, page); err != nil {
 		return util.NewErrorf(err, util.ErrorCodeInternal, "%s", "could not create page")
