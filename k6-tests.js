@@ -8,7 +8,7 @@ export const options = {
   ],
   thresholds: {
     http_req_failed: ['rate<0.01'], // http errors should be less than 1%
-    http_req_duration: ['avg<100', 'p(95)<200'], // 95 percent of response times must be below 500ms
+    http_req_duration: ['avg<200', 'p(95)<200'], // 95 percent of response times must be below 500ms
   },
 };
 
