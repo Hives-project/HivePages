@@ -26,30 +26,38 @@ func RouteMessagesFromTopics(service page.PageService, m kafka.Message) {
 	}
 }
 
-func createPage(value []byte) {
+func createPage(message []byte) {
 	var page page.Page
-	if err := json.Unmarshal(value, &page); err != nil {
-		log.Printf("Invalid request payload")
+	if err := json.Unmarshal(message, &page); err != nil {
+		log.Printf("Invalid request payload- createPage()")
 		return
 	}
+
 	if err := pageService.CreatePage(ctx, page); err != nil {
 		log.Printf("internal server error: %s", err.Error())
 		return
 	}
 }
 
-func getUsername(value []byte) {
-	var req page.Page
-	if err := json.Unmarshal(value, &req); err != nil {
-		log.Printf("Invalid request payload")
+func getUsername(message []byte) {
+	var req pageWithKrabbelid
+	if err := json.Unmarshal(message, &req); err != nil {
+		log.Printf("Invalid request payload - getUsername()")
 		return
 	}
-	page, err := pageService.GetPageById(ctx, req.Uuid)
+
+	page, err := pageService.GetPageById(ctx, req.PageId)
 	if err != nil {
 		log.Printf("internal server error: %s", err.Error())
 		return
 	}
-	if err = producer.UpdateUsername(page.UserName); err != nil {
+
+	if err = producer.UpdateUsername(page.UserName, req.KrabbelId); err != nil {
 		log.Printf("error producing message: %s", err.Error())
 	}
+}
+
+type pageWithKrabbelid struct {
+	PageId    string `json:"page_id"`
+	KrabbelId string `json:"krabbel_id"`
 }

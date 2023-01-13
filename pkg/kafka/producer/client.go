@@ -34,9 +34,9 @@ func Init(cfg config.KafkaConfig) {
 	})
 }
 
-func UpdateUsername(username string) error {
+func UpdateUsername(username string, krabbelId string) error {
 	writer.Topic = "sndosdzx-updateUsername"
-	body, err := json.Marshal(map[string]string{"uuid": username})
+	body, err := json.Marshal(map[string]string{"username": username, "krabbel_id": krabbelId})
 	if err != nil {
 		return err
 	}
