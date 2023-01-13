@@ -24,6 +24,10 @@ data:
   MYSQL_PASSWORD: Veiligheid11
   MYSQL_HOST: "80.56.132.146"
   MYSQL_PORT: "3306"
+  KAFKA_HOST: "glider.srvs.cloudkafka.com"
+  KAFKA_PORT: "9094"
+  KAFKA_USER: sndosdzx
+  KAFKA_PASSWORD: tROx7gUXhMTZVFKjxIzEHE53FqUIOe9e
 ---
 apiVersion: "apps/v1"
 kind: "Deployment"
@@ -43,89 +47,109 @@ spec:
         app: "hives-pages"
     spec:
       containers:
-      - name: "hives-pages-sha256-1"
-        image: "gcr.io/alert-sunspot-369610/hives-pages:latest"
-        env:
-        - name: "APP_NAME"
-          valueFrom:
-            configMapKeyRef:
-              key: "APP_NAME"
-              name: "hives-pages-config-x0rm"
-        - name: "APP_VERSION"
-          valueFrom:
-            configMapKeyRef:
-              key: "APP_VERSION"
-              name: "hives-pages-config-x0rm"
-        - name: "APP_ENV"
-          valueFrom:
-            configMapKeyRef:
-              key: "APP_ENV"
-              name: "hives-pages-config-x0rm"
-        - name: "HTTP_HOST"
-          valueFrom:
-            configMapKeyRef:
-              key: "HTTP_HOST"
-              name: "hives-pages-config-x0rm"
-        - name: "HTTP_PORT"
-          valueFrom:
-            configMapKeyRef:
-              key: "HTTP_PORT"
-              name: "hives-pages-config-x0rm"
-        - name: "HTTP_WRITE_TIME_OUT"
-          valueFrom:
-            configMapKeyRef:
-              key: "HTTP_WRITE_TIME_OUT"
-              name: "hives-pages-config-x0rm"
-        - name: "HTTP_READ_TIME_OUT"
-          valueFrom:
-            configMapKeyRef:
-              key: "HTTP_READ_TIME_OUT"
-              name: "hives-pages-config-x0rm"
-        - name: "HTTP_IDLE_TIME_OUT"
-          valueFrom:
-            configMapKeyRef:
-              key: "HTTP_IDLE_TIME_OUT"
-              name: "hives-pages-config-x0rm"
-        - name: "CONN_MAX_LIFE_TIME"
-          valueFrom:
-            configMapKeyRef:
-              key: "CONN_MAX_LIFE_TIME"
-              name: "hives-pages-config-x0rm"
-        - name: "MAX_IDLE_CONNS"
-          valueFrom:
-            configMapKeyRef:
-              key: "MAX_IDLE_CONNS"
-              name: "hives-pages-config-x0rm"
-        - name: "MAX_OPEN_CONNS"
-          valueFrom:
-            configMapKeyRef:
-              key: "MAX_OPEN_CONNS"
-              name: "hives-pages-config-x0rm"
-        - name: "MYSQL_DATABASE"
-          valueFrom:
-            configMapKeyRef:
-              key: "MYSQL_DATABASE"
-              name: "hives-pages-config-x0rm"
-        - name: "MYSQL_USERNAME"
-          valueFrom:
-            configMapKeyRef:
-              key: "MYSQL_USERNAME"
-              name: "hives-pages-config-x0rm"
-        - name: "MYSQL_PASSWORD"
-          valueFrom:
-            configMapKeyRef:
-              key: "MYSQL_PASSWORD"
-              name: "hives-pages-config-x0rm"
-        - name: "MYSQL_PORT"
-          valueFrom:
-            configMapKeyRef:
-              key: "MYSQL_PORT"
-              name: "hives-pages-config-x0rm"
-        - name: "MYSQL_HOST"
-          valueFrom:
-            configMapKeyRef:
-              key: "MYSQL_HOST"
-              name: "hives-pages-config-x0rm"
+        - name: "hives-pages-sha256-1"
+          image: "gcr.io/alert-sunspot-369610/hives-pages:latest"
+          env:
+            - name: "APP_NAME"
+              valueFrom:
+                configMapKeyRef:
+                  key: "APP_NAME"
+                  name: "hives-pages-config-x0rm"
+            - name: "APP_VERSION"
+              valueFrom:
+                configMapKeyRef:
+                  key: "APP_VERSION"
+                  name: "hives-pages-config-x0rm"
+            - name: "APP_ENV"
+              valueFrom:
+                configMapKeyRef:
+                  key: "APP_ENV"
+                  name: "hives-pages-config-x0rm"
+            - name: "HTTP_HOST"
+              valueFrom:
+                configMapKeyRef:
+                  key: "HTTP_HOST"
+                  name: "hives-pages-config-x0rm"
+            - name: "HTTP_PORT"
+              valueFrom:
+                configMapKeyRef:
+                  key: "HTTP_PORT"
+                  name: "hives-pages-config-x0rm"
+            - name: "HTTP_WRITE_TIME_OUT"
+              valueFrom:
+                configMapKeyRef:
+                  key: "HTTP_WRITE_TIME_OUT"
+                  name: "hives-pages-config-x0rm"
+            - name: "HTTP_READ_TIME_OUT"
+              valueFrom:
+                configMapKeyRef:
+                  key: "HTTP_READ_TIME_OUT"
+                  name: "hives-pages-config-x0rm"
+            - name: "HTTP_IDLE_TIME_OUT"
+              valueFrom:
+                configMapKeyRef:
+                  key: "HTTP_IDLE_TIME_OUT"
+                  name: "hives-pages-config-x0rm"
+            - name: "CONN_MAX_LIFE_TIME"
+              valueFrom:
+                configMapKeyRef:
+                  key: "CONN_MAX_LIFE_TIME"
+                  name: "hives-pages-config-x0rm"
+            - name: "MAX_IDLE_CONNS"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MAX_IDLE_CONNS"
+                  name: "hives-pages-config-x0rm"
+            - name: "MAX_OPEN_CONNS"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MAX_OPEN_CONNS"
+                  name: "hives-pages-config-x0rm"
+            - name: "MYSQL_DATABASE"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MYSQL_DATABASE"
+                  name: "hives-pages-config-x0rm"
+            - name: "MYSQL_USERNAME"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MYSQL_USERNAME"
+                  name: "hives-pages-config-x0rm"
+            - name: "MYSQL_PASSWORD"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MYSQL_PASSWORD"
+                  name: "hives-pages-config-x0rm"
+            - name: "MYSQL_PORT"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MYSQL_PORT"
+                  name: "hives-pages-config-x0rm"
+            - name: "MYSQL_HOST"
+              valueFrom:
+                configMapKeyRef:
+                  key: "MYSQL_HOST"
+                  name: "hives-pages-config-x0rm"
+            - name: "KAFKA_HOST"
+              valueFrom:
+                configMapKeyRef:
+                  key: "KAFKA_HOST"
+                  name: "hives-pages-config-x0rm"
+            - name: "KAFKA_PORT"
+              valueFrom:
+                configMapKeyRef:
+                  key: "KAFKA_PORT"
+                  name: "hives-pages-config-x0rm"
+            - name: "KAFKA_USER"
+              valueFrom:
+                configMapKeyRef:
+                  key: "KAFKA_USER"
+                  name: "hives-pages-config-x0rm"
+            - name: "KAFKA_PASSWORD"
+              valueFrom:
+                configMapKeyRef:
+                  key: "KAFKA_PASSWORD"
+                  name: "hives-pages-config-x0rm"
 ---
 apiVersion: "autoscaling/v2"
 kind: "HorizontalPodAutoscaler"
@@ -139,12 +163,12 @@ spec:
     kind: "Deployment"
     name: "hives-pages"
     apiVersion: "apps/v1"
-  minReplicas: 1
-  maxReplicas: 5
+  minReplicas: 2
+  maxReplicas: 20
   metrics:
-  - type: "Resource"
-    resource:
-      name: "cpu"
-      target:
-        type: "Utilization"
-        averageUtilization: 80
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        target:
+          type: "Utilization"
+          averageUtilization: 80

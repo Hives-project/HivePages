@@ -15,9 +15,10 @@ type Config struct {
 	Version     string
 
 	// Add package configs under here
-	GRPC GRPCConfig
-	Sql  MySQLConfig
-	HTTP HTTPConfig
+	GRPC  GRPCConfig
+	Sql   MySQLConfig
+	HTTP  HTTPConfig
+	Kafka KafkaConfig
 }
 
 func NewConfig() *Config {
@@ -44,6 +45,7 @@ func (cfg *Config) LoadConfig() error {
 	cfg.GRPC = cfg.LoadGRPCConfig()
 	cfg.Sql = cfg.loadSqlConfig()
 	cfg.HTTP = cfg.loadHTTPConfig()
+	cfg.Kafka = cfg.loadKafkaConfig()
 
 	return nil
 }
