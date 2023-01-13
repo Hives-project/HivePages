@@ -52,6 +52,11 @@ func getUsername(message []byte) {
 		return
 	}
 
+	if page.UserName == "" || req.KrabbelId == "" {
+		log.Printf("username or krabbelid empty: %s, %s", page.UserName, req.KrabbelId)
+		return
+	}
+
 	if err = producer.UpdateUsername(page.UserName, req.KrabbelId); err != nil {
 		log.Printf("error producing message: %s", err.Error())
 	}
