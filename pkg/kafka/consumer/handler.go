@@ -3,9 +3,9 @@ package consumer
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 
+	"github.com/Hives-project/HivePages/pkg/kafka/producer"
 	"github.com/Hives-project/HivePages/pkg/page"
 	"github.com/segmentio/kafka-go"
 )
@@ -19,9 +19,9 @@ func RouteMessagesFromTopics(service page.PageService, m kafka.Message) {
 	pageService = service
 
 	switch m.Topic {
-	case "createPage":
+	case "sndosdzx-createPage":
 		createPage(m.Value)
-	case "getUsername":
+	case "sndosdzx-getUsername":
 		getUsername(m.Value)
 	}
 }
@@ -49,6 +49,7 @@ func getUsername(value []byte) {
 		log.Printf("internal server error: %s", err.Error())
 		return
 	}
-	fmt.Println(page.UserName)
-	// Todo: push username to topic for krabbels to pick up
+	if err = producer.UpdateUsername(page.UserName); err != nil {
+		log.Printf("error producing message: %s", err.Error())
+	}
 }

@@ -4,8 +4,6 @@ import (
 	"context"
 
 	"github.com/Hives-project/HivePages/pkg/util"
-
-	"github.com/google/uuid"
 )
 
 type pageService struct {
@@ -20,7 +18,6 @@ func NewPageService(u PageRepository) PageService {
 
 func (u *pageService) CreatePage(ctx context.Context, page Page) error {
 	// Todo: add router from kafka consumer that has keycloak subject and username
-	page.Uuid = uuid.New().String()
 	if err := u.pageRepository.CreatePage(ctx, page); err != nil {
 		return util.NewErrorf(err, util.ErrorCodeInternal, "%s", "could not create page")
 	}

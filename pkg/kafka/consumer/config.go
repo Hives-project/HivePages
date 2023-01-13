@@ -28,7 +28,7 @@ func StartKafkaConsumer(cfg config.KafkaConfig, pageSvc page.PageService) {
 	}
 	readerConfig := kafka.ReaderConfig{
 		Brokers:     []string{fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)},
-		GroupTopics: []string{"createPage", "getUsername"},
+		GroupTopics: []string{"sndosdzx-createPage", "sndosdzx-getUsername"},
 		GroupID:     "pages",
 		Dialer:      dialer,
 	}
