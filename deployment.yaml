@@ -75,6 +75,11 @@ spec:
                 configMapKeyRef:
                   key: "HTTP_PORT"
                   name: "hives-pages-config-x0rm"
+            - name: "PAGE_URL"
+              valueFrom:
+                configMapKeyRef:
+                  key: "PAGE_URL"
+                  name: "hives-pages-config-x0rm"
             - name: "HTTP_WRITE_TIME_OUT"
               valueFrom:
                 configMapKeyRef:
