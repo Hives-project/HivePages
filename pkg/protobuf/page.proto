@@ -20,6 +20,11 @@ message PageResponse {
     string uuid = 1;
     string pageName = 2;
     string description = 3;
+    string userName = 4;
+}
+
+message PagesResponse {
+    repeated PageResponse pages = 1;
 }
 
 message PagesResponse {

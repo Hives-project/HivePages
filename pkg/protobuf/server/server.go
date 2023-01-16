@@ -29,7 +29,7 @@ type PageServer struct {
 	PageService page.PageService
 }
 
-const serverLog string = "[Server]: "
+const serverLog string = "[GRPc Server]: "
 
 func NewPageServer(cfg *config.GRPCConfig, env string, version string, sql *sql.DB) *PageServer {
 	baseUrl := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
@@ -97,6 +97,7 @@ func (s *PageServer) GetPages(ctx context.Context, _ *emptypb.Empty) (*pb.PagesR
 			Uuid:        page.Uuid,
 			PageName:    page.PageName,
 			Description: page.Description,
+			UserName:    page.UserName,
 		}
 		responses.Pages = append(responses.Pages, &resp)
 	}

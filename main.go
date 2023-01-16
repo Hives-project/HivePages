@@ -7,6 +7,8 @@ import (
 
 	"github.com/Hives-project/HivePages/pkg/config"
 	"github.com/Hives-project/HivePages/pkg/http/rest"
+	"github.com/Hives-project/HivePages/pkg/kafka/consumer"
+	"github.com/Hives-project/HivePages/pkg/kafka/producer"
 	"github.com/Hives-project/HivePages/pkg/protobuf/server"
 	"github.com/Hives-project/HivePages/pkg/storage/mysql"
 )
@@ -20,7 +22,6 @@ func main() {
 
 func run() error {
 	cfg := config.NewConfig()
-
 	err := cfg.LoadConfig()
 	if err != nil {
 		return errors.New(err.Error())
@@ -35,6 +36,10 @@ func run() error {
 
 	server := server.NewPageServer(&cfg.GRPC, cfg.Environment, cfg.Version, sql)
 	server.Init()
+
+	producer.Init(cfg.Kafka)
+
+	go consumer.StartKafkaConsumer(cfg.Kafka, server.PageService)
 
 	go httpServer.Run(cfg.Name)
 

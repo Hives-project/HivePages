@@ -102,7 +102,7 @@ jobs:
         run: |-
           ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:latest
           ./kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment/hives-pages
+          kubectl rollout restart deployment/hives-pages
           kubectl get services -o wide
 
   k6_load_test:

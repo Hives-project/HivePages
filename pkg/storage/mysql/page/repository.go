@@ -20,15 +20,15 @@ func NewPageRepository(sql *sql.DB) page.PageRepository {
 	}
 }
 
-func (r *pageRepository) GetPages(ctx context.Context) ([]page.GetPage, error) {
-	var pages []page.GetPage
-	result, err := r.db.Query("SELECT `uuid`, `pageName`, `description` from `pages`")
+func (r *pageRepository) GetPages(ctx context.Context) ([]page.Page, error) {
+	var pages []page.Page
+	result, err := r.db.Query("SELECT `uuid`, `pageName`, `description`, `username` from `pages`")
 	if err != nil {
 		return nil, err
 	}
 	defer result.Close()
 	for result.Next() {
-		var page page.GetPage
+		var page page.Page
 		err := result.Scan(&page.Uuid, &page.PageName, &page.Description)
 		if err != nil {
 			return nil, err
@@ -38,14 +38,14 @@ func (r *pageRepository) GetPages(ctx context.Context) ([]page.GetPage, error) {
 	return pages, nil
 }
 
-func (r *pageRepository) CreatePage(ctx context.Context, page page.CreatePage) error {
-	stmt, err := r.db.Prepare("INSERT INTO pages(uuid, pageName, description) VALUES(?, ?, ?)")
+func (r *pageRepository) CreatePage(ctx context.Context, page page.Page) error {
+	stmt, err := r.db.Prepare("INSERT INTO pages(uuid, pageName, description, username) VALUES(?, ?, ?, ?)")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(page.Uuid, page.PageName, page.Description)
+	_, err = stmt.Exec(page.Uuid, page.PageName, page.Description, page.UserName)
 	if mysqlError, ok := err.(*mysql.MySQLError); ok {
 		if mysqlError.Number == 1062 {
 			return errors.New("this page already exists")
@@ -56,10 +56,10 @@ func (r *pageRepository) CreatePage(ctx context.Context, page page.CreatePage) e
 	return nil
 }
 
-func (r *pageRepository) GetPageById(ctx context.Context, pageId string) (page.GetPage, error) {
-	var page page.GetPage
-	row := r.db.QueryRow("SELECT `uuid`, `pageName`, `description` FROM `pages` WHERE uuid = ?", pageId)
-	err := row.Scan(&page.Uuid, &page.PageName, &page.Description)
+func (r *pageRepository) GetPageById(ctx context.Context, pageId string) (page.Page, error) {
+	var page page.Page
+	row := r.db.QueryRow("SELECT `uuid`, `pageName`, `description`, `username` FROM `pages` WHERE uuid = ?", pageId)
+	err := row.Scan(&page.Uuid, &page.PageName, &page.Description, &page.UserName)
 
 	switch {
 	case errors.Is(err, sql.ErrNoRows):
